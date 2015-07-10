@@ -4,7 +4,7 @@ class CreateHelpdeskQualifications < ActiveRecord::Migration
       t.string :name
       t.text :observation	
       t.boolean :status
-      t.references :order_service, index: true, foreign_key: true
+      t.references :order_service, index: true#, foreign_key: true
       t.timestamps null: false
     end
   end

@@ -11,7 +11,7 @@ class Person::CurriculumUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "/storage/files/uploads/images"
+    "uploads/files/person"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -38,6 +38,14 @@ class Person::CurriculumUploader < CarrierWave::Uploader::Base
   # For images you might use something like this:
   def extension_white_list
      %w(jpg jpeg gif png pdf)
+  end
+
+  
+  def filename
+    if original_filename
+      @name ||= Digest::MD5.hexdigest(File.dirname(current_path))
+      "#{@name}.#{file.extension}"
+    end
   end
 
   # Override the filename of the uploaded files:

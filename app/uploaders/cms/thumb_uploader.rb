@@ -4,7 +4,7 @@ class Cms::ThumbUploader < CarrierWave::Uploader::Base
   storage :file
 
   def store_dir
-    "image"
+    "uploads/images/cms"
   end
 
   def extension_white_list
