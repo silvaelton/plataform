@@ -102,9 +102,16 @@ ActiveRecord::Schema.define(version: 20150710150929) do
   add_index "cms_posts", ["post_category_id"], name: "index_cms_posts_on_post_category_id", using: :btree
 
   create_table "finance_bank_slip_generateds", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "barcode"
+    t.string   "value"
+    t.string   "code"
+    t.date     "deadline"
+    t.integer  "bank_slip_type_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
+
+  add_index "finance_bank_slip_generateds", ["bank_slip_type_id"], name: "index_finance_bank_slip_generateds_on_bank_slip_type_id", using: :btree
 
   create_table "finance_bank_slip_payeds", force: :cascade do |t|
     t.datetime "created_at", null: false
