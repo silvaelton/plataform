@@ -26,6 +26,12 @@ PATH
       rails (~> 4.2.1)
 
 PATH
+  remote: engines/finance
+  specs:
+    finance (0.0.1)
+      rails (~> 4.2.1)
+
+PATH
   remote: engines/helpdesk
   specs:
     helpdesk (0.0.1)
@@ -310,6 +316,7 @@ DEPENDENCIES
   devise
   email_validator
   figaro
+  finance!
   friendly_id
   guard
   guard-livereload
