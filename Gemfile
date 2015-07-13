@@ -36,9 +36,14 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rails'
   gem 'guard-livereload'
-  gem 'puma'
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
+  gem 'capistrano3-unicorn'
+  gem 'sshkit-sudo'
 end
 
+gem 'unicorn'
 
 gem 'concourse',      path: 'engines/concourse'
 gem 'schedule',       path: 'engines/schedule'

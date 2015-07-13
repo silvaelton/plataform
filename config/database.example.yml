@@ -1,0 +1,24 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+
+development:
+  <<: *default
+  host: <%= ENV['database_host'] %>
+  database: <%= ENV['databse_name'] %>
+  username: <%= ENV['database_username'] %>
+  password: <%= ENV['database_password'] %>
+
+test:
+  <<: *default
+  host: <%= ENV['database_host'] %>
+  database: <%= ENV['databse_name'] %>
+  username: <%= ENV['database_username'] %>
+  password: <%= ENV['database_password'] %>
+
+production:
+  <<: *default
+  host: <%= ENV['database_host'] %>
+  database: <%= ENV['databse_name'] %>
+  username: <%= ENV['database_username'] %>
+  password: <%= ENV['database_password'] %>
