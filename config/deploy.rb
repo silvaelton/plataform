@@ -36,11 +36,19 @@ end
 task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/log"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
-
   queue! %[mkdir -p "#{deploy_to}/shared/config"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/config"]
+  queue! %[cp #{deploy_to}/current/config/database.yml #{deploy_to}/shared/config/database.yml]
+end
 
-  queue  %[cp #{deploy_to}/current/config/database.yml shared/config/database.yml]
+
+desc "Deploys the current version to the server."
+task :load => :environment do
+  deploy do
+    invoke :'git:clone'
+    invoke :'deploy:link_shared_paths'
+    invoke :'bundle:install'
+  end
 end
 
 desc "Deploys the current version to the server."
