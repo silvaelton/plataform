@@ -36,6 +36,7 @@ end
 task :setup do
   queue! %{
     mkdir -p "#{app_path}/tmp/pids"
+    chmod 777 -R "#{app_path}/tmp/pids"
   }
 end
 
@@ -69,7 +70,7 @@ namespace :unicorn do
   set :unicorn_pid, "#{app_path}/tmp/pids/unicorn.pid"
   set :start_unicorn, %{
     cd #{app_path}
-    bundle exec unicorn -c #{app_path}/config/unicorn.rb -E #{rails_env} -D
+    bundle exec unicorn_rails -c #{app_path}/config/unicorn.rb -E #{rails_env} -D
   }
  
 #                                                                    Start task
