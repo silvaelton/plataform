@@ -6,7 +6,7 @@ require 'mina/rvm'
 set :app_name, ENV['APP_NAME']
 
 set :term_mode,       :system
-set :rails_env,       'staging'
+set :rails_env,       'development'
 
 set :domain, ENV["STAGE_HOST_SERVER"]
 
@@ -33,11 +33,22 @@ task :setup => :environment do
   deploy do
     invoke 'git:clone'
     invoke 'bundle:install'
-    queue! "sudo rm /etc/nginx/sites-enabled/#{app_name}"
-    queue! "cp #{app_path}/config/nginx/#{rails_env}.conf /etc/nginx/sites-enabled/#{app_name}"
+    queue! "sudo ln -s #{app_path}/config/nginx/#{rails_env}.conf /etc/nginx/sites-enabled/#{app_name}"
   end
 end
 
+
+#
+# ========================== BACKUP =============================
+
+desc "configure setup to application"
+task :setup => :environment do
+  deploy do
+    invoke 'git:clone'
+    invoke 'bundle:install'
+    queue! "sudo ln -s #{app_path}/config/nginx/#{rails_env}.conf /etc/nginx/sites-enabled/#{app_name}"
+  end
+end
 
 #
 # ========================== DEPLOY APPLICATION =================
@@ -64,7 +75,7 @@ namespace :unicorn do
   set :unicorn_pid, "#{app_path}/tmp/pids/unicorn.pid"
   set :start_unicorn, %{
     cd #{app_path}
-    RAILS_ENV=#{rails_env} bundle exec unicorn_rails -c #{app_path}/config/unicorn.rb -D
+    RAILS_ENV=production unicorn_rails -c #{app_path}/config/unicorn/#{rails_env}.rb -D
   }
  
 #                                                                    Start task
