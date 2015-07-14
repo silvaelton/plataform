@@ -36,11 +36,7 @@ group :development, :test do
   gem 'guard'
   gem 'guard-rails'
   gem 'guard-livereload'
-  gem 'capistrano'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rvm'
-  gem 'capistrano3-unicorn'
-  gem 'sshkit-sudo'
+  gem 'mina'
 end
 
 gem 'unicorn'

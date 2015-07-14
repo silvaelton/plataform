@@ -1,77 +1,43 @@
-# config valid only for current version of Capistrano
-lock '3.4.0'
+require 'mina/bundler' 
+require 'mina/rails' 
+require 'mina/git' 
+require 'mina/rvm'
 
-set :application, 'plataform'
-set :repo_url, 'https://github.com/eltonchrls/plataform.git'
-# Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+set :domain, '10.36.25.14' 
+set :user,  'development'
+set :deploy_to, '/home/deploy/plataform' 
+set :repository, 'https://github.com/eltonchrls/plataform.git'
+set :branch, 'master'
 
-# Default deploy_to directory is /var/www/my_app_name
+set :shared_paths, ['config/database.yml', 'log']
 
-# Default value for :scm is :git
+task :environment do
+  invoke :'rvm:use[ruby-2.2.1]'
+end
 
-# Default value for :format is :pretty
-# set :format, :pretty
+task :down do
+  invoke :restart
+  invoke :logs
+end
 
-# Default value for :log_level is :debug
-set :log_level, :debug
+task :restart do
+  queue 'sudo service nginx restart'
+end
 
-# Default value for :pty is false
-set :forward_agent, true
-set :deploy_via, :remote_cache
+task :logs do
+  queue 'tail -f /var/log/nginx/error.log'
+end
 
-after "deploy", "deploy:cleanup"
-# Default value for :linked_files is []
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
-
-# Default value for linked_dirs is []
-# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
-
-# Default value for keep_releases is 5
-set :use_sudo, true
-set :linked_dirs, %w{bin log tmp vendor/bundle public/system public/sitemaps}
-
-
-namespace :deploy do
-  %w[start stop restart].each do |command|
-    desc "#{command} unicorn server"
-    task command do 
-      on roles :app do
-        sudo "/etc/init.d/unicorn_#{fetch(:application)} #{command}"
-      end
-    end
-  end
- 
-  task :setup_config do
-    on roles :app do
-      sudo "rm -f /etc/nginx/sites-enabled/default"
-      sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{fetch(:application)}"
-      sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{fetch(:application)}"
-      sudo "mkdir -p #{shared_path}/config"
-      puts "Now edit #{shared_path}/config/database.yml and add your username and password"
-    end
-  end
- 
-  
-  task :symlink_config do 
-    on roles :app, in: :sequence, wait: 1 do
-      run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    end
-  end
-  
- 
-  desc "Make sure local git is in sync with remote."
-  task :check_revision do
-    on roles :app do
-      unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        puts "WARNING: HEAD is not the same as origin/master"
-        puts "Run `git push` to sync changes."
-        exit
-      end
-    end
-  end
-
+task :deploy => :environment do 
+  deploy do 
+    invoke :'git:clone' 
+    invoke :'deploy:link_shared_paths' 
+    invoke :'bundle:install' 
+    invoke :'rails:db_migrate' 
+    invoke :'rails:assets_precompile' 
+    
+    to :launch do 
+      queue "touch #{deploy_to}/tmp/restart.txt" 
+    end 
+  end 
 end
