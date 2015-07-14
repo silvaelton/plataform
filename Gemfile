@@ -37,7 +37,6 @@ group :development, :test do
   gem 'guard-rails'
   gem 'guard-livereload'
   gem 'mina'
-  gem 'mina-unicorn'
 end
 
 gem 'unicorn'
