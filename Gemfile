@@ -26,9 +26,8 @@ gem 'email_validator'
 gem 'wkhtmltopdf-binary'
 gem 'wicked_pdf'
 
-gem 'figaro'
-
 gem 'pg'
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug'
@@ -37,9 +36,9 @@ group :development, :test do
   gem 'guard-rails'
   gem 'guard-livereload'
   gem 'mina'
+  gem 'dotenv-rails'
 end
 
-gem 'unicorn'
 
 gem 'concourse',      path: 'engines/concourse'
 gem 'schedule',       path: 'engines/schedule'

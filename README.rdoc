@@ -26,3 +26,27 @@ Things you may want to cover:
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
+
+
+
+#banco de dados
+development:
+  # BANCO DE DADOS
+  databse_name: 'plataform_development'
+  database_host: 'localhost'
+  database_username: 'postgres'
+  database_password: '123456789'
+
+production:
+  # BANCO DE DADOS
+  databse_name: 'plataform_production'
+  database_host: '10.36.25.15'
+  database_username: 'postgres'
+  database_password: 'DB@codh@b+008'
+
+test:
+  # BANCO DE DADOS
+  databse_name: 'plataform_test'
+  database_host: 'localhost'
+  database_username: 'postgres'
+  database_password: '123456789'
