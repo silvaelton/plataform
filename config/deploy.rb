@@ -38,7 +38,7 @@ task :setup => :environment do
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
   queue! %[mkdir -p "#{deploy_to}/shared/config"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/config"]
-  queue! %[cp #{deploy_to}/current/config/database.yml #{deploy_to}/shared/config/database.yml]
+  queue! %[cp #{deploy_to}/current/config/database.sample.yml #{deploy_to}/shared/config/database.yml]
 end
 
 
