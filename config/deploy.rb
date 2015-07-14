@@ -35,7 +35,7 @@ end
 
 task :setup do
   queue! %{
-    mkdir -p "#{deploy_to}/shared/tmp/pids"
+    mkdir -p "#{app_path}/tmp/pids"
   }
 end
 
