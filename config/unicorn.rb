@@ -5,7 +5,6 @@ worker_processes   1
 preload_app        true
 timeout            180
 listen             '127.0.0.1:9021'
-user               'apps', 'apps'
 working_directory  app_path
 pid                "#{app_path}/tmp/pids/unicorn.pid"
 stderr_path        "log/unicorn.log"
