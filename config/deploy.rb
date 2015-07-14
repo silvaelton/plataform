@@ -40,6 +40,15 @@ task :setup do
 end
 
 
+
+desc "deploys the current version to the server."
+task :reload => :environment do
+  deploy do
+    invoke 'git:clone'
+    invoke 'bundle:install'
+  end
+end
+
 desc "deploys the current version to the server."
 task :deploy => :environment do
   deploy do
