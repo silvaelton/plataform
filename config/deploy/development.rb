@@ -47,7 +47,7 @@ task :setup => :environment do
     invoke 'git:clone'
     invoke 'bundle:install'
     queue!  "sudo rm /etc/nginx/sites-enabled/#{app_name} || true"
-    queue!  "sudo ln -s #{app_path}/config/nginx/#{rails_env}.conf /etc/nginx/sites-enabled/#{app_name} || true"
+    queue!  "cp #{app_path}/config/nginx/#{rails_env}.conf /etc/nginx/sites-enabled/#{app_name} || true"
   end
 end
 
