@@ -25,17 +25,6 @@ task :environment do
   invoke :'rvm:use[ruby-2.2.1]'
 end
 
-#
-# ========================== SETUP ==============================
-
-desc "configure setup to application"
-task :setup => :environment do
-  deploy do
-    invoke 'git:clone'
-    invoke 'bundle:install'
-    queue! "sudo ln -s #{app_path}/config/nginx/#{rails_env}.conf /etc/nginx/sites-enabled/#{app_name}"
-  end
-end
 
 
 #
@@ -46,8 +35,8 @@ task :setup => :environment do
   deploy do
     invoke 'git:clone'
     invoke 'bundle:install'
-    queue!  "sudo rm /etc/nginx/sites-enabled/#{app_name} || true"
-    queue!  "cp #{app_path}/config/nginx/#{rails_env}.conf /etc/nginx/sites-enabled/#{app_name} || true"
+    queue! "sudo rm /etc/nginx/sites-enabled/#{app_name} || true"
+    queue! "sudo ln -s #{app_path}/config/nginx/#{rails_env}.conf /etc/nginx/sites-enabled/#{app_name} || true"
   end
 end
 
@@ -76,7 +65,7 @@ namespace :unicorn do
   set :unicorn_pid, "#{app_path}/tmp/pids/unicorn.pid"
   set :start_unicorn, %{
     cd #{app_path}
-    RAILS_ENV=production unicorn_rails -c #{app_path}/config/unicorn/#{rails_env}.rb -D
+    RAILS_ENV=development unicorn_rails -c #{app_path}/config/unicorn/#{rails_env}.rb -D
   }
  
 #                                                                    Start task

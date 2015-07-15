@@ -1,11 +1,13 @@
+app_path = "/home/deploy/plataform/development/current"
+
 working_directory "/home/deploy/plataform/development/current"
 
-pid "#{working_directory}/tmp/pids/unicorn.pid"
-stderr_path "#{working_directory}/log/unicorn.log"
-stdout_path "#{working_directory}/log/unicorn.log"
+pid "#{app_path}/tmp/pids/unicorn.pid"
+stderr_path "#{app_path}/log/unicorn.log"
+stdout_path "#{app_path}/log/unicorn.log"
 
-listen "#{working_directory}/tmp/unicorn.plataform.sock"
-listen "#{working_directory}/tmp/unicorn.plataform.sock"
+listen "#{app_path}/tmp/unicorn.plataform.sock"
+listen "#{app_path}/tmp/unicorn.plataform.sock"
 
 worker_processes 4
 timeout 30
