@@ -16,6 +16,7 @@ set :app_path,    "#{deploy_to}/#{current_path}"
 set :repository,  ENV["GITHUB_REPO"]
 set :branch,      ENV["STAGE_BRANCH"]
 
+set :shared_paths,    ['public', 'tmp', 'tmp/pids']
 set :keep_releases,   5
 #
 # ========================== RVM ===============================
@@ -64,7 +65,7 @@ namespace :unicorn do
   set :unicorn_pid, "#{app_path}/tmp/pids/unicorn.pid"
   set :start_unicorn, %{
     cd #{app_path}
-    RAILS_ENV=development unicorn_rails -c #{app_path}/config/unicorn/#{rails_env}.rb -D
+    RAILS_ENV=production unicorn_rails -c #{app_path}/config/unicorn/#{rails_env}.rb -D
   }
  
 #                                                                    Start task
