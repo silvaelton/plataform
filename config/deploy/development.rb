@@ -16,7 +16,6 @@ set :app_path,    "#{deploy_to}/#{current_path}"
 set :repository,  ENV["GITHUB_REPO"]
 set :branch,      ENV["STAGE_BRANCH"]
 
-set :shared_paths,    ['public/static', 'tmp']
 set :keep_releases,   5
 #
 # ========================== RVM ===============================
